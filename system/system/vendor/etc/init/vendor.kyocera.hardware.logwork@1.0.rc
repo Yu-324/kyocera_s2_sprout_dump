@@ -1,0 +1,7 @@
+#on early-boot
+#    exec u:r:logwork_init_shell:s0 -root root -- /vendor/bin/init.kc.logwork.early_boot.sh
+
+service logwork-hal-1-0 /vendor/bin/hw/vendor.kyocera.hardware.logwork@1.0-service
+    class hal
+    user system
+    group root system

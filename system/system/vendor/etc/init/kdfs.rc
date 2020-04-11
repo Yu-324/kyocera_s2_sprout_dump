@@ -1,0 +1,16 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2018 KYOCERA Corporation
+#
+
+on post-fs-data
+    mkdir /data/vendor/kdfs 0771 root shell
+
+on property:sys.boot_completed=1
+    start kdfs
+
+service kdfs /vendor/bin/kdfs
+    class late_start
+    user root
+    group system shell input wakelock
+    disabled
+    oneshot

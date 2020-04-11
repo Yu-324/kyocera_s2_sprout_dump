@@ -1,0 +1,24 @@
+#This software is contributed or developed by KYOCERA Corporation.
+# (C) 2018 KYOCERA Corporation
+
+on property:ro.mode.kccharger=1
+    setprop sys.usb.config mass_storage
+    setprop debug.sf.nobootanimation 1
+    start qcom-post-boot
+    start charger
+    start offchg_monitor
+    start chg_dnand
+
+service offchg_monitor /vendor/bin/offchg_monitor
+    class late_start
+    user system
+    group system
+    disabled
+    oneshot
+
+service chg_dnand /vendor/bin/chg_dnand
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot

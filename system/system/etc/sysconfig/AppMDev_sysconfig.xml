@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+
+    <!-- Feature to confirm Android one device identifier -->
+    <feature name="com.google.android.feature.ANDROID_ONE_EXPERIENCE" />
+
+    <!-- Enable Zero Touch Provisioning support for Android O and newer device. -->
+    <feature name="com.google.android.feature.ZERO_TOUCH" />
+
+    <!-- Enable Device Health Services support for Android P and newer device. -->
+    <feature name="com.google.android.feature.TURBO_PRELOAD" />
+
+    <!-- Enable Digital Wellbeing support for Android P and newer device. -->
+    <feature name="com.google.android.feature.WELLBEING" />
+
+</config>

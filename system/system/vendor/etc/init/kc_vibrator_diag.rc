@@ -1,0 +1,6 @@
+#This software is contributed or developed by KYOCERA Corporation.
+#(C) 2018 KYOCERA Corporation
+
+on boot
+    chown system system /dev/kc_vibrator_test
+    chmod 0660 /dev/kc_vibrator_test

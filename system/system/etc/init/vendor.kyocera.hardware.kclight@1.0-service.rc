@@ -1,0 +1,4 @@
+service kclight-hal-1-0 /vendor/bin/hw/vendor.kyocera.hardware.kclight@1.0-service
+    class hal
+    user system
+    group system

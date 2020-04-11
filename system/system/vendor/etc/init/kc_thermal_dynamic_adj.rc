@@ -1,0 +1,36 @@
+#This software is contributed or developed by KYOCERA Corporation.
+#(C) 2018 KYOCERA Corporation
+
+service thermaladjNORMAL /vendor/bin/kc_thermal_dynamic_adj NORMAL
+       class core
+       oneshot
+       disabled
+       user system
+       group system
+
+service thermaladjONCALL /vendor/bin/kc_thermal_dynamic_adj ONCALL
+       class core
+       oneshot
+       disabled
+       user system
+       group system
+
+service thermaladjCAMERA /vendor/bin/kc_thermal_dynamic_adj CAMERA
+       class core
+       oneshot
+       disabled
+       user system
+       group system
+
+
+# normal
+on property:camera.qcamerasvr.started=0 && property:vendor.radio.kc_voice_call_state=0
+       start thermaladjNORMAL
+
+# oncall
+on property:vendor.radio.kc_voice_call_state=1 && property:camera.qcamerasvr.started=0 && property:sys.boot_completed=1
+       start thermaladjONCALL
+
+# camera & third party camera
+on property:camera.qcamerasvr.started=1 && property:sys.boot_completed=1
+       start thermaladjCAMERA

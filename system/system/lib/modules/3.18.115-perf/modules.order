@@ -1,0 +1,7 @@
+kernel/crypto/ansi_cprng.ko
+kernel/drivers/video/backlight/lcd.ko
+kernel/drivers/video/backlight/backlight.ko
+kernel/drivers/video/backlight/generic_bl.ko
+kernel/drivers/char/rdbg.ko
+kernel/drivers/net/wireless/ath/wil6210/wil6210.ko
+kernel/net/bridge/br_netfilter.ko

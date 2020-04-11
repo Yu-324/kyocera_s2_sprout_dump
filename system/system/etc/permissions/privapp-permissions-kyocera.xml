@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This software is contributed or developed by KYOCERA Corporation.
+  -->
+
+<!--
+This XML file declares which signature|privileged permissions should be granted to privileged
+Kyocera applications.
+It allows additional grants on top of privapp-permissions-platform.xml
+-->
+<permissions>
+    <!-- 00.ProductManagement -->
+
+
+    <!-- 01.PlatformDesign -->
+
+
+    <!-- 02.QC -->
+
+
+    <!-- 03.01.AppFrameworks -->
+
+
+    <!-- 03.02.HOMEandOutdoor -->
+    <privapp-permissions package="jp.kyocera.pedometer">
+        <permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+    </privapp-permissions>
+
+    <!-- 03.03.VoiceComm -->
+
+
+    <!-- 03.04.DataComm -->
+
+
+    <!-- 03.05.Tools -->
+    <privapp-permissions package="jp.kyocera.start.setupwizard">
+        <permission name="android.permission.CHANGE_COMPONENT_ENABLED_STATE"/>
+        <permission name="android.permission.WRITE_SECURE_SETTINGS"/>
+    </privapp-permissions>
+
+    <!-- 03.Applications -->
+
+
+    <!-- 04.SystemService -->
+
+
+    <!-- 05.SystemDriver -->
+
+
+    <!-- 06.Connectivity -->
+
+
+    <!-- 07.01.Audio -->
+
+
+    <!-- 07.02.Sensor -->
+
+
+    <!-- 07.03.Media -->
+
+
+    <!-- 07.04.Camera -->
+
+
+    <!-- 07.Multimedia -->
+
+
+    <!-- 08.Modem -->
+
+
+</permissions>

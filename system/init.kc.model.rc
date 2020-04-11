@@ -1,0 +1,37 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2017 KYOCERA Corporation
+#
+on boot
+    insmod /system/lib/modules/texfat.ko
+
+    chown system system /dev/camera_isp_flash
+    chmod 0660 /dev/camera_isp_flash
+
+    setprop persist.dpm.feature 0
+
+on property:sys.eco.cpu.mode=normal
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 85
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 960000:85 1094400:90"
+
+on property:sys.eco.cpu.mode=eco
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads 95
+
+service akscd /system/vendor/bin/akscd
+    class core
+    user root
+    group root
+
+service vbatt_pa_init /system/bin/vbatt_pa_init
+    class late_start
+    user root
+    group system
+    oneshot
+
+service akscd_pack /system/etc/akscd.sh
+    class core
+    user system
+    group system
+    disabled
+    oneshot
+

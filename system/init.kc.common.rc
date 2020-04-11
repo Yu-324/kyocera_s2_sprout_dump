@@ -1,0 +1,314 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2017 KYOCERA Corporation
+#
+import init.kdmc.rc
+
+import init.kc.sensor.rc
+
+import init.kc.usb.rc
+
+import init.kc.thermal.rc
+
+on init
+    export SECONDARY_STORAGE /storage/sdcard1
+
+on boot
+    chown system system /sys/class/leds/mobilelightinfo/brightness
+    chown system system /sys/class/leds/ledinfo/brightness
+    chown system system /sys/class/leds/backlightinfo/brightness
+    chown system system /sys/class/leds/red/control_ex
+    chown system system /sys/class/leds/green/control_ex
+    chown system system /sys/class/leds/amber/control_ex
+    chown system system /dev/leds-ledlight
+    chmod 0660 /dev/leds-ledlight
+
+    chown system system /sys/class/msm_camera_flash/camera_flash_set/camera_flash
+
+    chown system system /sys/class/graphics/fb0/dynamic_fps
+
+    chown system system /sys/class/graphics/fb0/invert_color
+
+    symlink /dev/cxd2235 /dev/snfc_uart
+    symlink /dev/felica_cen /dev/snfc_cen
+    symlink /dev/intu_poll /dev/snfc_intu_poll
+    symlink /dev/available_poll /dev/snfc_available_poll
+    symlink /dev/felica_rfs /dev/snfc_rfs
+
+    chown system system /dev/ts_ctrl
+    chmod 0660 /dev/ts_ctrl
+
+    write /proc/sys/vm/dirty_background_ratio 1
+
+    write /proc/sys/net/core/wmem_max  3461120
+    write /proc/sys/net/core/rmem_max  2097152
+
+    chown system system /sys/class/graphics/fb0/sre_mode
+
+    chown root system /sys/class/power_supply/battery/battery_charging_enabled
+    chown root system /sys/class/power_supply/battery/charging_enabled
+    chmod 0664 /sys/class/power_supply/battery/battery_charging_enabled
+    chmod 0664 /sys/class/power_supply/battery/charging_enabled
+
+    chown system system /sys/class/timed_output/vibrator/strength
+
+    chown system system /sys/devices/soc/78b7000.i2c/i2c-3/3-0024/drv_debug
+    chown system system /sys/devices/soc/78b7000.i2c/i2c-3/3-0024/easy_wakeup_gesture
+
+on post-fs
+    chown root root /pstore
+    chmod 0771 /pstore
+
+    mkdir /persist/uim 0770 system system
+
+    mkdir /cache/delta 0770 system system
+    mkdir /cache/fota 0770 system system
+
+    mkdir /persist/nfcfelica 0770 system system
+
+    chmod 0660 /dev/assd
+    chown smartcard smartcard /dev/assd
+
+on post-fs-data
+    mkdir /data/system/dtvtuner
+    chown system system /data/system/dtvtuner
+    restorecon_recursive /data/system/dtvtuner
+
+on property:sys.boot_completed=1
+    rm /persist/errstart
+
+    start dump_move
+
+    start ssrdump-sh
+
+on property:ro.mode.kccharger=1
+    setprop sys.usb.config mass_storage
+    setprop debug.sf.nobootanimation 1
+    start qcom-post-boot
+    start charger
+
+on property:kcfactory.kfbm.status=kfbm
+    start qcom-post-boot
+    start kfbmpower
+
+on property:kcfactory.kfbm.status=android
+    start kfbmpower-end 
+    stop kfbmpower
+
+on property:persist.kc.cmd.secadb=*
+    setprop kc.cmd.secadb ${persist.kc.cmd.secadb}
+
+on property:ro.kcmount=1
+   mount tmpfs tmpfs /cache mode=0770,uid=1000,gid=2001
+
+on property:persist.sys.ssr.max_restarts=*
+    write /sys/module/subsystem_restart/parameters/max_restarts ${persist.sys.ssr.max_restarts}
+
+on property:persist.sys.ssr.max_history_tim=*
+    write /sys/module/subsystem_restart/parameters/max_history_time ${persist.sys.ssr.max_history_tim}
+
+on property:sys.removable_media_status=*
+    restart autolog_ctrl
+
+on property:sys.external_media_status=*
+    restart autolog_ctrl
+
+on property:ril.restart.requested=1
+    setprop sys.powerctl reboot
+
+on property:media.camera.qcamerasvr.restart=1
+    restart  qcamerasvr
+
+on property:ro.build.date=*
+    write /sys/module/kcjlog/parameters/build_date ${ro.build.date}
+
+on property:ro.mode.kc_offchg_alert=1
+    stop charger
+    start kc_offchg_alert
+
+on property:init.svc.surfaceflinger=stopped
+    stop hdmid
+
+on property:sys.debug.launch=*
+    restart launch_apps
+
+on property:init.svc.bootanim=stopped
+    setprop init.default_encryption.trigger false
+
+service lkspad /system/vendor/bin/lkspad
+    class core
+    user root
+    group root
+
+service kfbmpower /system/vendor/bin/kfbmpower
+    class core
+    disabled
+    oneshot
+
+service kfbmpower-end /system/vendor/bin/kfbmpower --ledoff
+    class core
+    disabled
+    oneshot
+
+service uimd /system/bin/uimd
+    class core
+    socket uimd stream 666 system system
+
+service kerrd /system/vendor/bin/kerrd
+    class core
+
+service kdfs /system/vendor/bin/kdfs
+    class late_start
+    oneshot
+
+service autolog /system/vendor/bin/autolog.sh
+    class late_start
+    user root
+    group root
+    oneshot
+    disabled
+
+service dump_move /system/vendor/bin/dump_move.sh
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot
+
+service logcapture /system/vendor/bin/logcapture
+    class late_start
+    user root
+    group root
+    oneshot
+    disabled
+
+service ssrdump-sh /system/vendor/bin/subsystem_ramdump.sh
+    class core
+    disabled
+    oneshot
+
+service autolog_ctrl /system/vendor/bin/autolog_ctrl.sh
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot
+
+service kcjfileconnd /system/vendor/bin/kcjfileconn_daemon 
+    class core
+    user root
+    group root
+
+service bugreport /system/bin/dumpstate  -d -p -B \
+        -o /data/data/com.android.shell/files/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+    keycodes 114 115 116
+
+service loggetterd /system/vendor/bin/loggetterd
+    class core
+
+service ktermd /system/vendor/bin/ktermd
+    class core
+
+service kflcd /system/bin/kflcd
+    class core
+    socket kflcd stream 660 nfc system
+    oneshot
+
+service kuartd /system/bin/kuartd
+    class core
+    oneshot
+
+service vbatt_pa_init /system/bin/vbatt_pa_init
+    class late_start
+    user root
+    group system
+    oneshot
+
+service dtvserver /system/bin/dtvserver
+    class main
+
+service kcblogd-sh /system/vendor/bin/kcblogd.sh
+    class late_start
+    user root
+    group root
+    oneshot
+
+service fotamngd /system/bin/fotamngd
+    class main
+    user system
+    group system
+    socket fotamngd seqpacket 0660 system system
+
+service kc_offchg_alert /system/vendor/bin/kc_offchg_alert
+    class late_start
+    user root
+    group root
+    disabled
+    oneshot
+
+service hdmid /system/bin/hdmid
+    class late_start
+    socket hdmid stream 0660 root system graphics
+    disabled
+
+service leakmonitord /system/vendor/bin/leakmonitord
+    class late_start
+    user root
+    group root
+    oneshot
+
+service usb_init /system/vendor/bin/usb_init
+    class core
+    user root
+    group system
+    oneshot
+
+service usb_event /system/vendor/bin/usb_init  -event
+    class core
+    user root
+    group system
+
+service dumpfd /system/bin/dumpstate -F
+    class main
+    socket dumpfd stream 0660 shell log
+    disabled
+    oneshot
+
+service lmk_monitord /system/vendor/bin/lmk_monitord
+    class late_start
+    user root
+    group root
+
+service launch_apps /system/vendor/bin/launch_apps.sh
+    class core
+    disabled
+    oneshot
+
+service gard /system/vendor/bin/gard
+    class main
+    user root
+    group root
+    disabled
+
+service logwork /system/vendor/bin/logwork -s
+    class main
+    user system
+    group system
+    socket logwork stream 0660 system system
+    disabled
+    oneshot
+
+service fullfull /system/vendor/bin/maximize_cpu_load 4 100
+    class core
+    user root
+    group root
+    disabled
+
+service ccload /system/vendor/bin/continuous_cpu_load 4
+    class core
+    user root
+    group root
+    disabled
+

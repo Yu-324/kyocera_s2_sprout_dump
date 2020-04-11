@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<libbfss>
+	<persist>
+		<group name="root" id="0">
+            <file path="/mnt/vendor/persist/data" />
+            <file path="/mnt/vendor/persist/data/sfs" />
+		</group>
+
+		<group name="widevine" id="1">
+            <file path="/mnt/vendor/persist/data/sfs/SUGZZk+Lj9hGLU1nAjkJzO7gbik_" />
+            <file path="/mnt/vendor/persist/data/sfs/vrhAMNHlrOZBCWpKkAaGox4ewUQ_" />
+		</group>
+
+		<group name="dxcprm" id="2">
+            <file path="/mnt/vendor/persist/data/dxcprm" />
+            <file path="/mnt/vendor/persist/data/dxcprm/B2A8DusYW8dGCcG0jL-dM-i33KQ_" />
+            <file path="/mnt/vendor/persist/data/dxcprm/B2A8DusYW8dGCcG0jL-dM-i33KQ_/0xNVt6dmghh6PxsbO67lBuyPqRE_" />
+            <file path="/mnt/vendor/persist/data/dxcprm/B2A8DusYW8dGCcG0jL-dM-i33KQ_/OgRTJGMyaAeaMj-kS2P0CrBs+oc_" />
+		</group>
+
+		<group name="dxhdcp2" id="3">
+            <file path="/mnt/vendor/persist/data/dxhdcp2" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_/WDHhiwshvAlJFop6xTwsOfk9mnc_" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_/a9qJwjNBETzZ5NZP8s5ozmfh9Gw_" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_/etK7oituoft7bxrO5H7GIVuhEQM_" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_/mUiE28tHgFkv4U6m-ynqfIBPCn8_" />
+            <file path="/mnt/vendor/persist/data/dxhdcp2/acGSIRU1TX-2o-nJ69e1aFGgUxE_/zttE+GVYd9YzREzMHiKY-IlERZM_" />
+		</group>
+	</persist>
+
+	<dnand>
+		<item id="DNAND_ID_IMEI" size="9" />
+	</dnand>
+</libbfss>

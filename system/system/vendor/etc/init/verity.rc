@@ -1,0 +1,6 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2018 KYOCERA Corporation
+
+on fs
+    # Update dm-verity state and set partition.*.verified properties
+    verity_update_state

@@ -1,0 +1,4 @@
+service irda-hal-1-0 /vendor/bin/hw/vendor.kyocera.hardware.irda@1.0-service
+    class hal
+	capabilities SYS_NICE
+

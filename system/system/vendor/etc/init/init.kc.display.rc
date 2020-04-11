@@ -1,0 +1,13 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2018 KYOCERA Corporation
+
+on boot
+    chown system system /sys/class/graphics/fb0/sre_mode
+    chown system system /sys/class/graphics/fb0/dynamic_fps
+    chown system system /dev/graphics/fb0
+
+service disp_ctrl /system/vendor/bin/disp_ctrl
+    class core
+    oneshot
+
+

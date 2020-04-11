@@ -1,0 +1,11 @@
+# This software is contributed or developed by KYOCERA Corporation.
+# (C) 2017 KYOCERA Corporation
+# (C) 2018 KYOCERA Corporation
+
+on boot
+    chown system system /sys/devices/soc/78b7000.i2c/i2c-3/3-0024/touch_mode
+    chown system system /dev/ts_ctrl
+    chmod 0660 /dev/ts_ctrl
+
+service ts_daemon /system/vendor/bin/ts_daemon
+    class core
